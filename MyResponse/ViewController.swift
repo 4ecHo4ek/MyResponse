@@ -39,7 +39,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let object = objects[indexPath.row]
         
         cell.nameLabel?.text = object.name // тут ? не было
-        cell.descriptionLabel.text = object.description
+        cell.descriptionLabel.text = object.describe
         cell.markLabel.text = String(object.mark)
         cell.imageOfObject.image = UIImage(data: object.imageData!)
         
