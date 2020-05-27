@@ -37,6 +37,9 @@ class ColorsSelection: UIViewController {
     }
     @IBOutlet weak var alphaSlider: UISlider!
     
+    @IBAction func goBack(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
     
     
     @IBAction func changeMark(_ sender: UISegmentedControl) {

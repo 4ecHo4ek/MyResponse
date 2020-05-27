@@ -98,7 +98,7 @@
                             </barButtonItem>
                             <barButtonItem title="Меняем цвет" id="JyL-M5-CWk">
                                 <connections>
-                                    <segue destination="fz0-z7-RGm" kind="show" id="WJe-92-HLk"/>
+                                    <segue destination="js7-8p-vVR" kind="presentation" id="fH3-aa-N68"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -420,6 +420,11 @@
                         <viewLayoutGuide key="safeArea" id="aYc-Ve-Yfc"/>
                     </view>
                     <navigationItem key="navigationItem" id="qJ6-f1-TqT">
+                        <barButtonItem key="leftBarButtonItem" image="arrowshape.turn.up.left" catalog="system" id="8da-HH-FrU">
+                            <connections>
+                                <action selector="goBack:" destination="fz0-z7-RGm" id="MMa-1m-VJ4"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Стандартный цвет" id="a36-Hs-mT2">
                             <connections>
                                 <action selector="setStandart:" destination="fz0-z7-RGm" id="Vb8-ek-8fH"/>
@@ -437,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Lh-we-K2D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="854"/>
+            <point key="canvasLocation" x="1957.9710144927537" y="853.79464285714278"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lmg-bu-RCE">
@@ -457,11 +462,30 @@
             </objects>
             <point key="canvasLocation" x="1854" y="-565"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="TcJ-sM-ca8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="js7-8p-vVR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SSS-pd-410">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fz0-z7-RGm" kind="relationship" relationship="rootViewController" id="RO8-NK-No8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zWJ-Fg-wbw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="853.79464285714278"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="nVB-aT-XaY"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
         <image name="photo" catalog="system" width="128" height="93"/>
     </resources>
 </document>

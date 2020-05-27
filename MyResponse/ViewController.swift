@@ -33,9 +33,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             as! CustomTableViewCell
         
+        
         let object = objects[indexPath.row]
         
-        cell.nameLabel?.text = object.name // тут ? не было
+        cell.nameLabel?.text = object.name
         cell.descriptionLabel.text = object.describe
         cell.markLabel.text = String(object.mark)
         cell.imageOfObject.image = UIImage(data: object.imageData!)
@@ -45,7 +46,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if object.haveColor {
            let id = setColor(mark: object.mark)
-            let backColor = UIColor(red: CGFloat(colors[id].red), green: CGFloat(colors[id].green), blue: CGFloat(colors[id].blue), alpha: CGFloat(colors[id].alpha))
+            let backColor = UIColor(red: CGFloat(colors[id].red),
+                                    green: CGFloat(colors[id].green),
+                                    blue: CGFloat(colors[id].blue),
+                                    alpha: CGFloat(colors[id].alpha))
             cell.backgroundColor = backColor
         } else {
             cell.backgroundColor = .none
@@ -63,6 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    
+   
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
