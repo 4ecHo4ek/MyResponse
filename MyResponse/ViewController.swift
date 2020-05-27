@@ -21,8 +21,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         objects = realm.objects(Response.self)
         colors = realm.objects(Colors.self)
-        
+        startPresentation()
     }
+    
+    //начальное заполнение цветов
+    private func beginingWork() {
+        var (r,g,b): (Double, Double, Double) = (0,0,0)
+        for number in 0...4 {
+            switch number {
+            case 0:
+                (r,g,b) = (1,0,0)
+            case 1:
+                (r,g,b) = (1,0.5,0)
+            case 2:
+                (r,g,b) = (1,1,0.5)
+            case 3:
+                (r,g,b) = (0.5,1,0.5)
+            case 4:
+                (r,g,b) = (0,1,0)
+            default:
+                break
+            }
+            let setColor = Colors(red: r, green: g, blue: b, alpha: 0.5)
+            StorageManager.saveColor(withNumbers: setColor)
+        }
+    }
+    //приветствие
+    func startPresentation() {
+        let userDefaults = UserDefaults.standard
+        let presentationWasViewed = userDefaults.bool(forKey: "presentationWasViewed")
+        if !presentationWasViewed {
+            if let pageViewController = storyboard?.instantiateViewController(
+                withIdentifier: "PageViewController") as? PageViewController {
+                present(pageViewController, animated: true, completion: nil)
+            }
+            beginingWork()
+        }
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return objects.isEmpty ? 0 : objects.count
@@ -45,7 +81,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.imageOfObject.clipsToBounds = true
         
         if object.haveColor {
-           let id = setColor(mark: object.mark)
+            let id = setColor(mark: object.mark)
             let backColor = UIColor(red: CGFloat(colors[id].red),
                                     green: CGFloat(colors[id].green),
                                     blue: CGFloat(colors[id].blue),
@@ -68,7 +104,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-   
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
@@ -120,7 +156,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let action = UIContextualAction(style: .normal, title: "color") { (action, view, complite) in
             
             try! realm.write{
-            self.objects[indexPath.row].haveColor = !self.objects[indexPath.row].haveColor
+                self.objects[indexPath.row].haveColor = !self.objects[indexPath.row].haveColor
             }
             self.makeBackground(at: indexPath)
         }
@@ -142,7 +178,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.cellForRow(at: index)?.backgroundColor = .none
         }
         
-       
+        
     }
     
 }

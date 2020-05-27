@@ -55,6 +55,8 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
             }
             camera.setValue(cameraIcon, forKey: "image")
             camera.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            
+            
             let photo = UIAlertAction(title: "Библиотека фото", style: .default) { _ in
                 self.chooseImagePicker(fromSource: .photoLibrary)
             }
@@ -136,6 +138,7 @@ extension TableViewController: UIImagePickerControllerDelegate {
             imagePicker.delegate = self
             imagePicker.allowsEditing = true
             imagePicker.sourceType = source
+           
             present(imagePicker, animated: true, completion: nil)
         }
     }
