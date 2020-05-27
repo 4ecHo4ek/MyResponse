@@ -1,0 +1,48 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "3DH-Pp-mkc"; */
+"3DH-Pp-mkc.text" = "Label";
+
+/* Class = "UILabel"; text = "Оценка"; ObjectID = "AjY-Oy-7XH"; */
+"AjY-Oy-7XH.text" = "Оценка";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ChT-oR-BfW"; */
+"ChT-oR-BfW.text" = "Label";
+
+/* Class = "UILabel"; text = "Название"; ObjectID = "Hpr-mN-zCq"; */
+"Hpr-mN-zCq.text" = "Название";
+
+/* Class = "UIBarButtonItem"; title = "Меняем цвет"; ObjectID = "JyL-M5-CWk"; */
+"JyL-M5-CWk.title" = "Меняем цвет";
+
+/* Class = "UIBarButtonItem"; title = "Сохранить"; ObjectID = "Mjy-Tp-cBu"; */
+"Mjy-Tp-cBu.title" = "Сохранить";
+
+/* Class = "UILabel"; text = "Пометим цветом?"; ObjectID = "SV0-9W-2TY"; */
+"SV0-9W-2TY.text" = "Пометим цветом?";
+
+/* Class = "UIBarButtonItem"; title = "Стандартный цвет"; ObjectID = "a36-Hs-mT2"; */
+"a36-Hs-mT2.title" = "Стандартный цвет";
+
+/* Class = "UISegmentedControl"; f5q-jk-vFD.segmentTitles[0] = "0..2"; ObjectID = "f5q-jk-vFD"; */
+"f5q-jk-vFD.segmentTitles[0]" = "0..2";
+
+/* Class = "UISegmentedControl"; f5q-jk-vFD.segmentTitles[1] = "3..4"; ObjectID = "f5q-jk-vFD"; */
+"f5q-jk-vFD.segmentTitles[1]" = "3..4";
+
+/* Class = "UISegmentedControl"; f5q-jk-vFD.segmentTitles[2] = "5..6"; ObjectID = "f5q-jk-vFD"; */
+"f5q-jk-vFD.segmentTitles[2]" = "5..6";
+
+/* Class = "UISegmentedControl"; f5q-jk-vFD.segmentTitles[3] = "7..8"; ObjectID = "f5q-jk-vFD"; */
+"f5q-jk-vFD.segmentTitles[3]" = "7..8";
+
+/* Class = "UISegmentedControl"; f5q-jk-vFD.segmentTitles[4] = "9..10"; ObjectID = "f5q-jk-vFD"; */
+"f5q-jk-vFD.segmentTitles[4]" = "9..10";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pI4-4n-YuO"; */
+"pI4-4n-YuO.text" = "Label";
+
+/* Class = "UILabel"; text = "Краткое описание"; ObjectID = "qHr-en-6Os"; */
+"qHr-en-6Os.text" = "Краткое описание";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "qR7-SX-3wj"; */
+"qR7-SX-3wj.text" = "Label";
