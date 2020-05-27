@@ -90,7 +90,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="AOY-aI-jr0">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="0Hb-SR-a8Y"/>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="jp9-Xy-SwK">
                                 <connections>
