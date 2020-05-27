@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Buw-bu-KkL">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="Buw-bu-KkL" customClass="CustomTableViewCell" customModule="MyResponse" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="86"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Buw-bu-KkL" id="CNT-pk-hky">
@@ -65,6 +65,13 @@
                                                 <constraint firstItem="9nG-I0-6b0" firstAttribute="top" secondItem="CNT-pk-hky" secondAttribute="top" constant="8" id="W0z-sb-lVF"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="ChT-oR-BfW" id="mLH-gV-mAO"/>
+                                            <outlet property="imageOfObject" destination="Yy2-Db-6NP" id="4Fq-c6-huu"/>
+                                            <outlet property="markLabel" destination="qR7-SX-3wj" id="ikp-9E-LLP"/>
+                                            <outlet property="nameLabel" destination="pI4-4n-YuO" id="vX0-9U-eFl"/>
+                                            <segue destination="1IR-nv-HdN" kind="show" identifier="showDetail" id="nVB-aT-XaY"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -93,6 +100,9 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="rIk-YM-Bmi" id="yMS-x3-NAE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -101,7 +111,7 @@
         <!--Table View Controller-->
         <scene sceneID="KIH-eO-gp7">
             <objects>
-                <tableViewController modalPresentationStyle="fullScreen" id="1IR-nv-HdN" sceneMemberID="viewController">
+                <tableViewController modalPresentationStyle="fullScreen" id="1IR-nv-HdN" customClass="TableViewController" customModule="MyResponse" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="VLP-MZ-if2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -147,7 +157,7 @@
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I03-4y-TWE">
                                                             <rect key="frame" x="0.0" y="36" width="384" height="25"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -171,23 +181,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="2iR-Jq-dA8">
-                                                    <rect key="frame" x="15" y="7" width="384" height="61"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="2iR-Jq-dA8">
+                                                    <rect key="frame" x="15" y="7" width="369" height="61"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оценка" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjY-Oy-7XH">
-                                                            <rect key="frame" x="0.0" y="0.0" width="61" height="61"/>
-                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-Thin" family="Apple SD Gothic Neo" pointSize="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оценка" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AjY-Oy-7XH">
+                                                            <rect key="frame" x="0.0" y="0.0" width="83" height="61"/>
+                                                            <fontDescription key="fontDescription" name="AppleSDGothicNeo-SemiBold" family="Apple SD Gothic Neo" pointSize="25"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="qVW-W1-p3B">
-                                                            <rect key="frame" x="74" y="0.0" width="312" height="62"/>
+                                                            <rect key="frame" x="111" y="0.0" width="260" height="62"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="256" id="Dw3-b6-kDG"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <action selector="changeMarkAction:" destination="1IR-nv-HdN" eventType="valueChanged" id="Hfb-je-1sl"/>
+                                                            </connections>
                                                         </slider>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="2iR-Jq-dA8" secondAttribute="trailing" constant="15" id="8ls-Um-jfU"/>
+                                                <constraint firstAttribute="trailing" secondItem="2iR-Jq-dA8" secondAttribute="trailing" constant="30" id="8ls-Um-jfU"/>
                                                 <constraint firstItem="2iR-Jq-dA8" firstAttribute="leading" secondItem="QJj-ak-YjC" secondAttribute="leading" constant="15" id="aTC-6O-5FV"/>
                                                 <constraint firstItem="2iR-Jq-dA8" firstAttribute="top" secondItem="QJj-ak-YjC" secondAttribute="top" constant="7" id="hLX-VV-jRD"/>
                                                 <constraint firstAttribute="bottom" secondItem="2iR-Jq-dA8" secondAttribute="bottom" constant="7" id="kHF-mO-KFV"/>
@@ -213,7 +229,7 @@
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvn-l7-acX">
                                                             <rect key="frame" x="0.0" y="36" width="384" height="25"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits"/>
+                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -271,11 +287,29 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="dz6-9h-nIv">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="tr8-8w-YFs"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Mjy-Tp-cBu"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="tr8-8w-YFs">
+                            <connections>
+                                <action selector="cancelAction:" destination="1IR-nv-HdN" id="7k7-Es-G1m"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Mjy-Tp-cBu">
+                            <connections>
+                                <segue destination="eM7-Rb-WhK" kind="unwind" unwindAction="unwindSegue:" id="pZL-VR-GfO"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="colorSwitch" destination="FYi-Dt-2Bx" id="K3n-0f-oyv"/>
+                        <outlet property="descriptionTF" destination="Xvn-l7-acX" id="5xD-6X-ahu"/>
+                        <outlet property="imageOfObject" destination="3E5-Se-3nQ" id="HTr-ck-uwH"/>
+                        <outlet property="markLabel" destination="AjY-Oy-7XH" id="guh-b7-7XO"/>
+                        <outlet property="markSlider" destination="qVW-W1-p3B" id="XjR-jJ-9V3"/>
+                        <outlet property="nameTF" destination="I03-4y-TWE" id="Hfl-5W-hNG"/>
+                        <outlet property="saveButton" destination="Mjy-Tp-cBu" id="On1-qR-SSE"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vd0-Vq-Af6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="eM7-Rb-WhK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1853.6231884057972" y="129.91071428571428"/>
         </scene>
@@ -378,4 +412,7 @@
             <point key="canvasLocation" x="1854" y="-565"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="nVB-aT-XaY"/>
+    </inferredMetricsTieBreakers>
 </document>
