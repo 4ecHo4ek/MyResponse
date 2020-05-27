@@ -11,11 +11,9 @@ import UIKit
 class SlidsViewController: UIViewController {
 
     @IBOutlet weak var textLabel: UILabel!
-    @IBOutlet weak var imageSlids: UIImageView!
     @IBOutlet weak var pages: UIPageControl!
     
     var presentText = ""
-    var image = UIImage(systemName: "paperplane.fill")
     var curentPage = 0
     var numderOfPages = 0
     
@@ -26,7 +24,6 @@ class SlidsViewController: UIViewController {
         textLabel.text = presentText
         pages.numberOfPages = numderOfPages
         pages.currentPage = curentPage
-        imageSlids.image = image
     }
     
 }

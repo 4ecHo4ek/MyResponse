@@ -16,7 +16,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var colors: Results<Colors>!
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         objects = realm.objects(Response.self)
@@ -65,10 +64,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             as! CustomTableViewCell
-        
         
         let object = objects[indexPath.row]
         
@@ -76,7 +73,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.descriptionLabel.text = object.describe
         cell.markLabel.text = String(object.mark)
         cell.imageOfObject.image = UIImage(data: object.imageData!)
-        
         cell.imageOfObject.layer.cornerRadius = cell.imageOfObject.frame.size.height / 2
         cell.imageOfObject.clipsToBounds = true
         
@@ -102,9 +98,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
-    
-    
-    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
@@ -178,8 +171,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.cellForRow(at: index)?.backgroundColor = .none
         }
         
-        
     }
-    
 }
 

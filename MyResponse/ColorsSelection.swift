@@ -20,7 +20,7 @@ class ColorsSelection: UIViewController {
     @IBOutlet weak var blueSlider: UISlider! {
         didSet {
             blueSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
-            blueSlider.tintColor = UIColor.red
+            blueSlider.tintColor = UIColor.blue
         }
     }
     @IBOutlet weak var greenSlider: UISlider! {
@@ -32,7 +32,7 @@ class ColorsSelection: UIViewController {
     @IBOutlet weak var redSlider: UISlider! {
         didSet {
             redSlider.transform = CGAffineTransform(rotationAngle: -.pi/2)
-            redSlider.tintColor = UIColor.blue
+            redSlider.tintColor = UIColor.red
         }
     }
     @IBOutlet weak var alphaSlider: UISlider!
