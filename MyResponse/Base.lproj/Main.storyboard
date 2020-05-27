@@ -296,7 +296,7 @@
                                 <action selector="cancelAction:" destination="1IR-nv-HdN" id="7k7-Es-G1m"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Mjy-Tp-cBu">
+                        <barButtonItem key="rightBarButtonItem" title="Сохранить" id="Mjy-Tp-cBu">
                             <connections>
                                 <segue destination="eM7-Rb-WhK" kind="unwind" unwindAction="unwindSegue:" id="pZL-VR-GfO"/>
                             </connections>
@@ -335,10 +335,10 @@
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="129.91071428571428"/>
         </scene>
-        <!--View Controller-->
+        <!--Colors Selection-->
         <scene sceneID="5A3-XZ-9RW">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="fz0-z7-RGm" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="fz0-z7-RGm" customClass="ColorsSelection" customModule="MyResponse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="haN-Lh-WB2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -362,36 +362,79 @@
                                     <segment title="7..8"/>
                                     <segment title="9..10"/>
                                 </segments>
+                                <connections>
+                                    <action selector="changeMark:" destination="fz0-z7-RGm" eventType="valueChanged" id="4d7-fe-v8U"/>
+                                </connections>
                             </segmentedControl>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Si6-r0-AH8">
-                                <rect key="frame" x="260" y="575" width="118" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Si6-r0-AH8">
+                                <rect key="frame" x="232" y="598" width="204" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Uxe-Al-duE"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="changeColor:" destination="fz0-z7-RGm" eventType="valueChanged" id="nEd-N0-45D"/>
+                                </connections>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="LMc-cj-SXN">
-                                <rect key="frame" x="148" y="575" width="118" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="LMc-cj-SXN">
+                                <rect key="frame" x="105" y="598" width="204" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="xpw-eB-nXX"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="changeColor:" destination="fz0-z7-RGm" eventType="valueChanged" id="M11-e5-Wsr"/>
+                                </connections>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hFg-Oo-VVV">
-                                <rect key="frame" x="39" y="575" width="118" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fJP-Lh-ANj">
+                                <rect key="frame" x="82" y="418" width="250" height="31"/>
+                                <connections>
+                                    <action selector="changeColor:" destination="fz0-z7-RGm" eventType="valueChanged" id="zTv-TH-87R"/>
+                                </connections>
                             </slider>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="fJP-Lh-ANj">
-                                <rect key="frame" x="82" y="434" width="250" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hFg-Oo-VVV">
+                                <rect key="frame" x="-22" y="598" width="204" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="f7u-2h-KkK"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="changeColor:" destination="fz0-z7-RGm" eventType="valueChanged" id="k3L-Ky-8NE"/>
+                                </connections>
                             </slider>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="f5q-jk-vFD" firstAttribute="top" secondItem="8TX-8B-7gI" secondAttribute="bottom" constant="50" id="87Z-oa-ONp"/>
+                            <constraint firstItem="fJP-Lh-ANj" firstAttribute="top" secondItem="f5q-jk-vFD" secondAttribute="bottom" constant="50" id="A77-wp-O7h"/>
+                            <constraint firstItem="LMc-cj-SXN" firstAttribute="centerX" secondItem="aYc-Ve-Yfc" secondAttribute="centerX" id="AST-Ij-Erf"/>
                             <constraint firstItem="8TX-8B-7gI" firstAttribute="top" secondItem="aYc-Ve-Yfc" secondAttribute="top" constant="40" id="AZG-dc-Kqq"/>
                             <constraint firstItem="8TX-8B-7gI" firstAttribute="leading" secondItem="aYc-Ve-Yfc" secondAttribute="leading" constant="50" id="Cf9-ka-020"/>
+                            <constraint firstItem="fJP-Lh-ANj" firstAttribute="leading" secondItem="aYc-Ve-Yfc" secondAttribute="leading" constant="84" id="KDJ-VO-22d"/>
+                            <constraint firstItem="Si6-r0-AH8" firstAttribute="top" secondItem="fJP-Lh-ANj" secondAttribute="bottom" constant="150" id="LPX-VG-eya"/>
+                            <constraint firstItem="hFg-Oo-VVV" firstAttribute="top" secondItem="fJP-Lh-ANj" secondAttribute="bottom" constant="150" id="ial-TK-4qV"/>
                             <constraint firstItem="aYc-Ve-Yfc" firstAttribute="trailing" secondItem="8TX-8B-7gI" secondAttribute="trailing" constant="50" id="jD5-N6-fdl"/>
+                            <constraint firstItem="LMc-cj-SXN" firstAttribute="top" secondItem="fJP-Lh-ANj" secondAttribute="bottom" constant="150" id="kBk-YS-fRZ"/>
+                            <constraint firstItem="aYc-Ve-Yfc" firstAttribute="trailing" secondItem="fJP-Lh-ANj" secondAttribute="trailing" constant="84" id="kiz-2B-Uab"/>
+                            <constraint firstItem="hFg-Oo-VVV" firstAttribute="leading" secondItem="haN-Lh-WB2" secondAttribute="leading" constant="-20" id="pnW-Qk-vzE"/>
                             <constraint firstItem="f5q-jk-vFD" firstAttribute="leading" secondItem="aYc-Ve-Yfc" secondAttribute="leading" constant="20" id="qEr-Uc-gbK"/>
+                            <constraint firstAttribute="trailing" secondItem="Si6-r0-AH8" secondAttribute="trailing" constant="-20" id="rtA-gn-XMw"/>
                             <constraint firstItem="aYc-Ve-Yfc" firstAttribute="trailing" secondItem="f5q-jk-vFD" secondAttribute="trailing" constant="20" id="wlw-Jr-QGD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aYc-Ve-Yfc"/>
                     </view>
-                    <navigationItem key="navigationItem" id="qJ6-f1-TqT"/>
+                    <navigationItem key="navigationItem" id="qJ6-f1-TqT">
+                        <barButtonItem key="rightBarButtonItem" title="Стандартный цвет" id="a36-Hs-mT2">
+                            <connections>
+                                <action selector="setStandart:" destination="fz0-z7-RGm" id="Vb8-ek-8fH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="alphaSlider" destination="fJP-Lh-ANj" id="9mH-a2-Qdi"/>
+                        <outlet property="blueSlider" destination="Si6-r0-AH8" id="6b8-yR-9cg"/>
+                        <outlet property="colorView" destination="8TX-8B-7gI" id="gfQ-VY-NmA"/>
+                        <outlet property="greenSlider" destination="LMc-cj-SXN" id="nQP-bv-aqO"/>
+                        <outlet property="markControl" destination="f5q-jk-vFD" id="rUe-Mu-Hjd"/>
+                        <outlet property="redSlider" destination="hFg-Oo-VVV" id="tlF-v0-BQM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Lh-we-K2D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

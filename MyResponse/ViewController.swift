@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         objects = realm.objects(Response.self)
         colors = realm.objects(Colors.self)
+        
     }
     
     
