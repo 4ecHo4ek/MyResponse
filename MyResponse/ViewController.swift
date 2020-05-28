@@ -122,6 +122,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+           tableView.deselectRow(at: indexPath, animated: true)
+       }
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
