@@ -27,7 +27,7 @@ class PageViewController: UIPageViewController {
         func showViewControllerAtIndext(_ index: Int) -> SlidsViewController? {
             
             guard index >= 0 else { return nil }
-            guard index < presentscreenContent.count else {
+            guard index < presentscreenContent.count - 1  else {
                 let userDefaults = UserDefaults.standard
                 userDefaults.set(true, forKey: "presentationWasViewed")
                 dismiss(animated: true, completion: nil)
@@ -44,8 +44,6 @@ class PageViewController: UIPageViewController {
             
             return contentViewController
         }
-        
-        
     }
 
 

@@ -12,15 +12,29 @@ import RealmSwift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var objects: Results<Response>!
-    var colors: Results<Colors>!
-    
+    private var objects: Results<Response>!
+    private var colors: Results<Colors>!
+    private var filtredResponse: Results<Response>!
+    private var searchBarIsEnpty: Bool {
+        guard let text = seachController.searchBar.text else { return false }
+        return text.isEmpty
+    }
+    private let seachController = UISearchController(searchResultsController: nil)
+    private var isFilteing: Bool {
+        return seachController.isActive && !searchBarIsEnpty
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         objects = realm.objects(Response.self)
         colors = realm.objects(Colors.self)
         startPresentation()
+        
+        seachController.searchResultsUpdater = self
+        seachController.obscuresBackgroundDuringPresentation = false
+        seachController.searchBar.placeholder = "Поиск"
+        navigationItem.searchController = seachController
+        definesPresentationContext = true
     }
     
     //начальное заполнение цветов
@@ -60,6 +74,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFilteing {
+            return filtredResponse.count
+        }
         return objects.isEmpty ? 0 : objects.count
     }
     
@@ -67,7 +84,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             as! CustomTableViewCell
         
-        let object = objects[indexPath.row]
+        var object = Response()
+        
+        if isFilteing {
+            object = filtredResponse[indexPath.row]
+        } else {
+            object = objects[indexPath.row]
+        }
         
         cell.nameLabel?.text = object.name
         cell.descriptionLabel.text = object.describe
@@ -102,7 +125,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        let object = objects[indexPath.row]
+        let object: Response
+        if isFilteing {
+            object = filtredResponse[indexPath.row]
+        } else {
+            object = objects[indexPath.row]
+        }
         let newObjectVC = segue.destination as! TableViewController
         newObjectVC.responce = object
     }
@@ -174,3 +202,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
+//MARK: - создаем расширения для работы с UISearchController
+
+extension ViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        //можем извлечь опционал, так как сам метод вызввается только в том случае, если текст есть
+        filerContentForSearchText(seachController.searchBar.text!)
+    }
+    
+    private func filerContentForSearchText(_ searchText: String) {
+        
+        //[c] - обозначает независимость от регистра (не важно большая или маленькая буква)
+        //%@ - конкретная переменная, которую мы напишем
+        //для каждого такого символа надо после происать откуда будкем брать инфу (в нашем случае - searchText)
+        filtredResponse =
+            objects.filter("name CONTAINS[c] %@ OR describe CONTAINS[c] %@", searchText,
+                          searchText)
+        tableView.reloadData()
+    }
+    
+}
