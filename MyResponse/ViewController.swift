@@ -11,6 +11,7 @@ import RealmSwift
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    //MARK: - определяем
     @IBOutlet weak var tableView: UITableView!
     private var objects: Results<Response>!
     private var colors: Results<Colors>!
@@ -24,11 +25,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return seachController.isActive && !searchBarIsEnpty
     }
     
+    //MARK: - view did load
     override func viewDidLoad() {
         super.viewDidLoad()
         objects = realm.objects(Response.self)
         colors = realm.objects(Colors.self)
         startPresentation()
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        self.navigationItem.leftBarButtonItem?.style = .plain
+        self.navigationItem.leftBarButtonItem?.title = "Передвинуть"
         
         seachController.searchResultsUpdater = self
         seachController.obscuresBackgroundDuringPresentation = false
@@ -37,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         definesPresentationContext = true
     }
     
-    //начальное заполнение цветов
+    //MARK: - начальное заполнение цветов
     private func beginingWork() {
         var (r,g,b): (Double, Double, Double) = (0,0,0)
         for number in 0...4 {
@@ -59,7 +64,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             StorageManager.saveColor(withNumbers: setColor)
         }
     }
+    
     //приветствие
+    //создаем бд
     func startPresentation() {
         let userDefaults = UserDefaults.standard
         let presentationWasViewed = userDefaults.bool(forKey: "presentationWasViewed")
@@ -72,7 +79,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    
+    //MARK: - table view cell
+    //отображаем информацию о ячейки
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFilteing {
             return filtredResponse.count
@@ -80,10 +88,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return objects.isEmpty ? 0 : objects.count
     }
     
+    //настройка вида ячейки
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
             as! CustomTableViewCell
-        
         var object = Response()
         
         if isFilteing {
@@ -113,6 +121,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    //MARK: - table view delegate
+    //прописываем действие при удалении
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
@@ -122,11 +132,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    //метод по снятию фокуса при отжимания пальца от ячейки
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           tableView.deselectRow(at: indexPath, animated: true)
-       }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
+    //хз что, может и не работает (чтоб сразу срабатывал свайп слева)
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        var index = indexPath
+        
+        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        
+        index = tableView.indexPathForSelectedRow!
+        
+        return index
+    }
     
+    //MARK: - table view segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == "showDetail" else { return }
         guard let indexPath = tableView.indexPathForSelectedRow else { return }
@@ -142,8 +164,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func unwindSegue(_ segue: UIStoryboardSegue) {
-        guard let newObjectVC = segue.source as? TableViewController else { return }
-        newObjectVC.saveObject()
+        
+        if let newObjectVC = segue.source as? TableViewController {
+            newObjectVC.saveObject()
+        } else if segue.source is ColorsSelection {
+            colors = realm.objects(Colors.self)
+        }
         tableView.reloadData()
     }
     
@@ -170,7 +196,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return id
     }
     
-    
+    //метод по добавлению действия при свайпе влево
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let color = makeColor(at: indexPath)
         
@@ -192,6 +218,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return action
     }
     
+    //метод по изменению цвета фона ячейки
     private func makeBackground(at index: IndexPath) {
         if self.objects[index.row].haveColor {
             let id = self.setColor(mark: self.objects[index.row].mark)
@@ -205,6 +232,66 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
+    
+    //MARK: - делаем перемещение ячеек (не работает)
+    //разрешаем двигать
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    //само движение ячейки
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+     
+        
+        var movingArray = [Response]()
+        for element in objects {
+            movingArray.append(element)
+        }
+        let movingElement = movingArray.remove(at: sourceIndexPath.row)
+        movingArray.insert(movingElement, at: destinationIndexPath.row)
+
+        //изменение цвета при передвижении ячеик
+        self.tableView.cellForRow(at: sourceIndexPath)?.backgroundColor = .none
+        self.tableView.cellForRow(at: destinationIndexPath)?.backgroundColor = .none
+        
+        for elenemt in objects {
+        StorageManager.deleteObject(myResponse: elenemt)
+        }
+        for element in movingArray {
+            StorageManager.saveObject(myResponse: element)
+        }
+        
+        objects = realm.objects(Response.self)
+        
+        if sourceIndexPath.row > destinationIndexPath.row {
+            for element in 0...sourceIndexPath.row {
+                redrawCells(inElement: element)
+            }
+        } else {
+            for element in 0...destinationIndexPath.row {
+                redrawCells(inElement: element)
+            }
+        }
+
+        tableView.reloadData()
+    }
+    
+    private func redrawCells(inElement element: Int) {
+        
+        if self.objects[element].haveColor {
+            let id = self.setColor(mark: self.objects[element].mark)
+            self.tableView.cellForRow(at: IndexPath(row: element, section: 0))?.backgroundColor =
+                UIColor(red: CGFloat(self.colors[id].red),
+                        green: CGFloat(self.colors[id].green),
+                        blue: CGFloat(self.colors[id].blue),
+                        alpha: CGFloat(self.colors[id].alpha))
+        } else {
+            self.tableView.cellForRow(at: IndexPath(row: element, section: 0))?.backgroundColor = .none
+        }
+    }
+    
+
+    
 }
 
 //MARK: - создаем расширения для работы с UISearchController
@@ -212,19 +299,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 extension ViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        //можем извлечь опционал, так как сам метод вызввается только в том случае, если текст есть
         filerContentForSearchText(seachController.searchBar.text!)
     }
     
     private func filerContentForSearchText(_ searchText: String) {
-        
-        //[c] - обозначает независимость от регистра (не важно большая или маленькая буква)
-        //%@ - конкретная переменная, которую мы напишем
-        //для каждого такого символа надо после происать откуда будкем брать инфу (в нашем случае - searchText)
         filtredResponse =
             objects.filter("name CONTAINS[c] %@ OR describe CONTAINS[c] %@", searchText,
-                          searchText)
+                           searchText)
         tableView.reloadData()
     }
     
 }
+
+//MARK: - иконка
+//MARK: - добавить теги
+//MARK: - настроить смарт добавление тега
+//MARK: - сделать так, чтоб при нажатии на поле поиска выплывало окно с выбором тега
+

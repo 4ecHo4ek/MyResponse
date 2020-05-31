@@ -39,7 +39,9 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
 
         saveButton.isEnabled = false
         nameTF.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
-        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0,
+                                                         width: tableView.frame.size.width,
+                                                         height: 1))
         setupEditScreen()
     }
     
