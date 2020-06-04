@@ -79,24 +79,36 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="RgZ-wL-SYB"/>
                                 </connections>
                             </tableView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnh-9j-4Gk">
+                                <rect key="frame" x="0.0" y="680" width="414" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="cnh-9j-4Gk" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0x0-7B-bFp"/>
                             <constraint firstAttribute="bottom" secondItem="rIk-YM-Bmi" secondAttribute="bottom" id="PTU-u2-of3"/>
+                            <constraint firstItem="cnh-9j-4Gk" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="axp-m5-5Hj"/>
                             <constraint firstItem="rIk-YM-Bmi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fAk-gM-VLm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rIk-YM-Bmi" secondAttribute="trailing" id="fET-SN-5SJ"/>
+                            <constraint firstAttribute="bottom" secondItem="cnh-9j-4Gk" secondAttribute="bottom" id="gyB-xF-pS6"/>
                             <constraint firstItem="rIk-YM-Bmi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="vMs-Kx-K6h"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="AOY-aI-jr0">
+                        <barButtonItem key="leftBarButtonItem" title="Фильтруем по типу" image="scissors" catalog="system" id="YKL-8N-A3V">
+                            <connections>
+                                <action selector="typeBarTapped:" destination="BYZ-38-t0r" id="8tD-4V-N9l"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="jp9-Xy-SwK">
                                 <connections>
                                     <segue destination="9o2-az-vw6" kind="presentation" id="oma-r8-04q"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Меняем цвет" id="JyL-M5-CWk">
+                            <barButtonItem image="paintbrush.fill" catalog="system" id="JyL-M5-CWk">
+                                <color key="tintColor" red="0.91120717005076146" green="0.65584554548287077" blue="0.62689941054055742" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <connections>
                                     <segue destination="js7-8p-vVR" kind="presentation" id="fH3-aa-N68"/>
                                 </connections>
@@ -105,6 +117,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="rIk-YM-Bmi" id="yMS-x3-NAE"/>
+                        <outlet property="typeBarButton" destination="YKL-8N-A3V" id="3Hf-ob-viW"/>
+                        <outlet property="typeSelector" destination="cnh-9j-4Gk" id="DM3-aT-LdF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -288,7 +302,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ofs-bt-qhf">
+                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="не работает" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ofs-bt-qhf">
                                                     <rect key="frame" x="56" y="20" width="302" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -325,6 +339,7 @@
                         <outlet property="markSlider" destination="qVW-W1-p3B" id="XjR-jJ-9V3"/>
                         <outlet property="nameTF" destination="I03-4y-TWE" id="Hfl-5W-hNG"/>
                         <outlet property="saveButton" destination="Mjy-Tp-cBu" id="On1-qR-SSE"/>
+                        <outlet property="typeTF" destination="Ofs-bt-qhf" id="9fY-cN-llQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vd0-Vq-Af6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -551,5 +566,7 @@
     <resources>
         <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
         <image name="nothing" width="900" height="900"/>
+        <image name="paintbrush.fill" catalog="system" width="128" height="125"/>
+        <image name="scissors" catalog="system" width="128" height="92"/>
     </resources>
 </document>

@@ -25,6 +25,8 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
     @IBOutlet weak var descriptionTF: UITextField!
     @IBOutlet weak var colorSwitch: UISwitch!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var typeTF: UITextField!
+    
     
     @IBAction func cancelAction(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -79,7 +81,9 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
     //MARK: - настройка сохранения
     func saveObject() {
         let imageData = imageOfObject.image?.pngData()
-        let newRespons = Response(name: nameTF.text!, describe: descriptionTF.text, haveColor: colorSwitch.isOn, mark: Int(markSlider.value), imageData: imageData)
+        let newRespons = Response(name: nameTF.text!, describe: descriptionTF.text,
+                                  haveColor: colorSwitch.isOn, mark: Int(markSlider.value),
+                                  imageData: imageData, type: typeTF.text)
         
         if responce != nil {
             try! realm.write {
@@ -88,6 +92,7 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
                 responce?.haveColor = newRespons.haveColor
                 responce?.mark = newRespons.mark
                 responce?.imageData = newRespons.imageData
+                responce?.type = newRespons.type
             }
         } else {
             StorageManager.saveObject(myResponse: newRespons)
@@ -107,6 +112,7 @@ class TableViewController: UITableViewController, UINavigationControllerDelegate
             markLabel.text = String(responce!.mark)
             markSlider.value = Float(responce!.mark)
             colorSwitch.isOn = responce!.haveColor
+            typeTF.text = responce!.type
         }
     }
     

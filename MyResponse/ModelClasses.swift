@@ -14,15 +14,17 @@ class Response: Object {
     @objc dynamic var haveColor = true
     @objc dynamic var mark = 0
     @objc dynamic var imageData: Data?
+    @objc dynamic var type: String?
     
     convenience init(name: String, describe: String?, haveColor: Bool, mark: Int,
-                     imageData: Data?) {
+                     imageData: Data?, type: String?) {
         self.init()
         self.name = name
         self.describe = describe
         self.haveColor = haveColor
         self.mark = mark
         self.imageData = imageData
+        self.type = type
     }
 }
 

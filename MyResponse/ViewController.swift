@@ -11,6 +11,7 @@ import RealmSwift
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
     //MARK: - определяем
     @IBOutlet weak var tableView: UITableView!
     private var objects: Results<Response>!
@@ -24,6 +25,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var isFilteing: Bool {
         return seachController.isActive && !searchBarIsEnpty
     }
+    @IBOutlet weak var typeBarButton: UIBarButtonItem!
+    @IBAction func typeBarTapped(_ sender: UIBarButtonItem) {
+        typeSelector.isHidden = !typeSelector.isHidden
+        upViewWhilePiching()
+    }
+    @IBOutlet weak var typeSelector: UIPickerView! {
+        didSet {
+            typeSelector.backgroundColor = .brown
+            typeSelector.tintColor = .white
+        }
+    }
+    
+    
+    
     
     //MARK: - view did load
     override func viewDidLoad() {
@@ -31,15 +46,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         objects = realm.objects(Response.self)
         colors = realm.objects(Colors.self)
         startPresentation()
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
-        self.navigationItem.leftBarButtonItem?.style = .plain
-        self.navigationItem.leftBarButtonItem?.title = "Передвинуть"
+        typeSelector.isHidden = true
+        typeSelector.delegate = self
         
         seachController.searchResultsUpdater = self
         seachController.obscuresBackgroundDuringPresentation = false
         seachController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = seachController
         definesPresentationContext = true
+        
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0,
+                                                         width: tableView.frame.size.width,
+                                                         height: 0)) //тут исправить если что
+        
+        createToolBar()
+        
     }
     
     //MARK: - начальное заполнение цветов
@@ -170,6 +191,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if segue.source is ColorsSelection {
             colors = realm.objects(Colors.self)
         }
+        objects = realm.objects(Response.self)
         tableView.reloadData()
     }
     
@@ -233,67 +255,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    //MARK: - делаем перемещение ячеек (не работает)
-    //разрешаем двигать
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+    //MARK: - picker view
     
-    //само движение ячейки
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-     
-        
-        var movingArray = [Response]()
-        for element in objects {
-            movingArray.append(element)
-        }
-        let movingElement = movingArray.remove(at: sourceIndexPath.row)
-        movingArray.insert(movingElement, at: destinationIndexPath.row)
-
-        //изменение цвета при передвижении ячеик
-        self.tableView.cellForRow(at: sourceIndexPath)?.backgroundColor = .none
-        self.tableView.cellForRow(at: destinationIndexPath)?.backgroundColor = .none
-        
-        for elenemt in objects {
-        StorageManager.deleteObject(myResponse: elenemt)
-        }
-        for element in movingArray {
-            StorageManager.saveObject(myResponse: element)
-        }
-        
-        objects = realm.objects(Response.self)
-        
-        if sourceIndexPath.row > destinationIndexPath.row {
-            for element in 0...sourceIndexPath.row {
-                redrawCells(inElement: element)
-            }
+    private func upViewWhilePiching() {
+        if typeSelector.isHidden == false {
+            tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0,
+                                                             width: tableView.frame.size.width,
+                                                             height: typeSelector.frame.size.height - 34 ))
         } else {
-            for element in 0...destinationIndexPath.row {
-                redrawCells(inElement: element)
-            }
+            tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0,
+                                                             width: tableView.frame.size.width,
+                                                             height: 0))
         }
-
-        tableView.reloadData()
     }
     
-    private func redrawCells(inElement element: Int) {
+    private func createToolBar() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
         
-        if self.objects[element].haveColor {
-            let id = self.setColor(mark: self.objects[element].mark)
-            self.tableView.cellForRow(at: IndexPath(row: element, section: 0))?.backgroundColor =
-                UIColor(red: CGFloat(self.colors[id].red),
-                        green: CGFloat(self.colors[id].green),
-                        blue: CGFloat(self.colors[id].blue),
-                        alpha: CGFloat(self.colors[id].alpha))
-        } else {
-            self.tableView.cellForRow(at: IndexPath(row: element, section: 0))?.backgroundColor = .none
-        }
+        let doneButton = UIBarButtonItem(title: "Закрыть",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(dismissKeyboard))
+        
+        toolBar.setItems([doneButton], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.tintColor = .white
+        toolBar.barTintColor = .brown
+        
+        typeSelector.addSubview(toolBar)
     }
     
-
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
 }
-
 //MARK: - создаем расширения для работы с UISearchController
 
 extension ViewController: UISearchResultsUpdating {
@@ -311,8 +309,66 @@ extension ViewController: UISearchResultsUpdating {
     
 }
 
-//MARK: - иконка
-//MARK: - добавить теги
-//MARK: - настроить смарт добавление тега
-//MARK: - сделать так, чтоб при нажатии на поле поиска выплывало окно с выбором тега
+//MARK: - создаем расширения для работы с UIPickerView
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    //вроде работает
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        let array = makeSetForPickerView()
+        guard let arrayOfTypes = array else { return 0 }
+        return arrayOfTypes.count
+    }
+    //вроде работает
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let array = makeSetForPickerView()
+        guard let arrayOfTypes = array else { return "" }
+        return arrayOfTypes[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let array = makeSetForPickerView()
+        guard let newArray = array else { return }
+        
+        let type = newArray[row]
+        filtredResponse = objects.filter("type CONTAINS[c] %@", type)
+        tableView.reloadData()
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label = UILabel()
+        if let currentLabel = view as? UILabel {
+            label = currentLabel
+        } else {
+            label = UILabel()
+        }
+        label.textColor = .white
+        label.textAlignment = .center
+        label.text = objects[row].type
+        return label
+    }
+    //вроде работает
+    private func makeSetForPickerView() -> [String]? {
+        var setOfTypes = Set<String?>()
+        var returningArray = [String]()
+        for i in 0..<objects.count {
+            if let element = objects[i].type {
+                setOfTypes.insert(element)
+            }
+        }
+        for i in setOfTypes {
+            if let newValue = i {
+                returningArray.append(newValue)
+            }
+        }
+        return returningArray.filter{$0 != ""}.sorted()
+    }
+}
 
+
+
+//MARK: - иконка
+//MARK: - настроить смарт добавление тега
