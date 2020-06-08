@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
+   
     
     //MARK: - определяем
     @IBOutlet weak var tableView: UITableView!
@@ -27,6 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     @IBOutlet weak var typeBarButton: UIBarButtonItem!
     @IBAction func typeBarTapped(_ sender: UIBarButtonItem) {
+        setPickerView()
         typeSelector.isHidden = !typeSelector.isHidden
         upViewWhilePiching()
     }
@@ -155,6 +157,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //метод по снятию фокуса при отжимания пальца от ячейки
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        typeSelector.isHidden = true
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -181,6 +184,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         let newObjectVC = segue.destination as! TableViewController
         newObjectVC.responce = object
+       
     }
     
     
@@ -192,7 +196,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             colors = realm.objects(Colors.self)
         }
         objects = realm.objects(Response.self)
-        tableView.reloadData()
+        reloadData()
     }
     
     
@@ -235,7 +239,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.makeBackground(at: indexPath)
         }
         action.backgroundColor = .blue
-        self.tableView.reloadData()
+        reloadData()
         action.image = UIImage(systemName: "paintbrush")
         return action
     }
@@ -269,7 +273,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    private func createToolBar() {
+    
+
+     
+     private func setPickerView() {
+         
+         let picker = UIPickerView()
+                picker.delegate = self
+         
+         let toolBar = createToolBar()
+        
+        
+        guard let superview = picker.superview else { return }
+        
+        superview.addSubview(toolBar)
+        toolBar.translatesAutoresizingMaskIntoConstraints = true
+        NSLayoutConstraint.activate([
+            toolBar.topAnchor.constraint(equalTo: superview.topAnchor),
+            toolBar.leftAnchor.constraint(equalTo: superview.leftAnchor),
+            toolBar.rightAnchor.constraint(equalTo: superview.rightAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: superview.bottomAnchor)])
+        
+        
+     }
+    
+    
+    private func createToolBar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
         
@@ -281,14 +310,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         toolBar.setItems([doneButton], animated: true)
         toolBar.isUserInteractionEnabled = true
         toolBar.tintColor = .white
-        toolBar.barTintColor = .brown
+        toolBar.barTintColor = .red
         
-        typeSelector.addSubview(toolBar)
+    return toolBar
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    
+    //MARK: - reload data
+    
+    private func reloadData() {
+        tableView.reloadData()
+    }
+    
+    // хз зачем, но может и так будет работать
+    func rrr() {
+        
+        let alert = UIAlertController(title: "nil", message: nil, preferredStyle: .alert)
+       
+        let select = UIAlertAction(title: "1", style: .default)
+        
+            alert.addTextField { (textField: UITextField) -> Void in
+                 let elementPicker = UIPickerView()
+                elementPicker.delegate = self
+                textField.inputView = elementPicker
+                
+                
+        }
+         
+        alert.addAction(select)
+        
+    
+        present(alert, animated: true)
+        
+    }
+    
+    
     
     
 }
@@ -297,6 +357,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 extension ViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+
+        
         filerContentForSearchText(seachController.searchBar.text!)
     }
     
@@ -332,11 +394,13 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         let array = makeSetForPickerView()
         guard let newArray = array else { return }
         
+        
         let type = newArray[row]
         filtredResponse = objects.filter("type CONTAINS[c] %@", type)
         tableView.reloadData()
         
     }
+    
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         var label = UILabel()
@@ -370,5 +434,13 @@ extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 
 
+
+
+
+
+
+
 //MARK: - иконка
 //MARK: - настроить смарт добавление тега
+//MARK: - настроить пикер
+//MARK: - сделать поле ввода типов
